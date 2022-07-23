@@ -42,7 +42,7 @@ const Auth = () => {
         setToken(data.user,data.access_token);
         setLoading(false);
       }).catch(err => {
-        if(err.response.data.error && err.response.data.error === 'Unauthorized'){
+        if(err.response.data!.error && err.response.data!.error === 'Unauthorized'){
           setErrorAuth('Incorrect username or password');
         }
         setLoading(false);

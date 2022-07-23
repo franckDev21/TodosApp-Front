@@ -1,7 +1,8 @@
-import axios, { AxiosInstance } from 'axios';
+import { AxiosInstance } from 'axios';
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { User } from '../core/model/user.model'
+import http from '../core/utils/http-client';
 
 function AuthService() {
 
@@ -51,13 +52,7 @@ function AuthService() {
     return false;
   }
 
-  const http : AxiosInstance = axios.create({
-    baseURL: 'http://localhost:8000/',
-    headers: {
-      'Content-Type':'application/json',
-      'Authorization':`Bearer ${token}`
-    }
-  });
+  const httpClient : AxiosInstance = http(token);
   
 
   return {
@@ -68,7 +63,7 @@ function AuthService() {
     getUser,
     isLogin,
     logout,
-    http
+    http : httpClient
   }
 }
 

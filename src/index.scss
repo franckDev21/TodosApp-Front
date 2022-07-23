@@ -6,3 +6,8 @@ button.disabled{
   opacity: .6;
   pointer-events: none;
 }
+
+.container{
+  max-width: 1024px;
+  @apply px-6 xl:px-0;
+}
