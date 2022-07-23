@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Loader from '../../components/Loader/Loader';
 import TodoList from '../../components/TodoList/TodoList';
 import TodoListModel from '../../core/model/todolist.model';
+import { fetchStoreTodoList } from '../../core/store/todoList';
 import AuthService from '../../services/AuthService'
 
 const Dashboard = () => {
 
   const { http,user } = AuthService();
   const [loading,setLoading] = useState(true);
-  const [todoLists,setTolists] = useState<TodoListModel[]>([]);
+
+  const dispatch = useDispatch();
+  const todoLists:TodoListModel[] = useSelector((state:any) => state.todoList);
 
   async function fetcthTodoList() {
     try {
       setLoading(true);
       const resp = await http.get('api/todos/'+user.id);
-      const todolists = await resp.data.data;
+
+      dispatch(fetchStoreTodoList(resp.data.data))
 
       setLoading(false);
-      setTolists(todolists)
-      
     } catch (error) {
       console.log(error);
       setLoading(false);

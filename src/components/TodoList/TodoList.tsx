@@ -1,6 +1,8 @@
 import React, { FC, useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import TodoListModel from '../../core/model/todolist.model'
-import Todo from '../Todo/Todo'
+import { addTodo } from '../../core/store/todoList'
+import Todo from '../Task/Todo'
 
 type TypeTodoList = {
   todolist : TodoListModel
@@ -9,11 +11,19 @@ type TypeTodoList = {
 const TodoList:FC<TypeTodoList> = ({todolist}) => {
 
   const [newTodo,setNewTodo] = useState<string>('');
+  const dispatch = useDispatch();
 
+  // useEffect(()=>{
+  //   console.log(todolist);
+  // },[todolist]);
 
-  useEffect(()=>{
-    console.log(todolist);
-  },[todolist]);
+  const addNewTodo = (id: string,value: string) => {
+    setNewTodo('');
+    // update store
+    dispatch(addTodo({id,value}));
+    // update BD
+
+  }
 
   return (
     <div className="w-full mb-4 lg:mb-0 lg:w-1/3 px-4">
@@ -24,14 +34,19 @@ const TodoList:FC<TypeTodoList> = ({todolist}) => {
         </div>
 
         <div className="flex flex-col text-center absolute top-0 left-0 px-6  py-2">
-          <span className="font-bold text-blue-900">{todolist.todos.length} Task{todolist.todos.length > 1 ? 's':''}</span>
+          <span className="font-bold text-blue-900">{(todolist?.todos || []).length} Task{(todolist?.todos || []).length > 1 ? 's':''}</span>
         </div>
 
-        <input onChange={e => setNewTodo(e.target.value)} value={newTodo} placeholder='New todo' className='px-3 py-2 outline-none border mb-3 font-semibold w-full rounded-md' />
+        <form className='w-full' onSubmit={(e) => {
+          e.preventDefault();
+          addNewTodo((todolist?.id?.toString()||''),newTodo);
+        }}>
+          <input onChange={e => setNewTodo(e.target.value)} value={newTodo} placeholder='New todo' className='px-3 py-2 outline-none border mb-3 font-semibold w-full rounded-md' />
+        </form>
 
-        {todolist.todos.length >= 1 ? 
+        {(todolist?.todos || []).length >= 1 ? 
           <>
-            {todolist.todos.map(todo => <Todo todo={todo} key={todo.id} />)}
+            {(todolist?.todos || []).map(todo => <Todo todo={todo} key={todo.id} />)}
           </>
           :
           <>
@@ -39,7 +54,7 @@ const TodoList:FC<TypeTodoList> = ({todolist}) => {
           </>
         }
         
-        <button className={`${newTodo === '' ? 'disabled':''} text-white px-3 py-2 bg-indigo-500 text-center font-semibold w-full rounded-md`}>Add todo </button>
+        <button onClick={() => addNewTodo((todolist?.id?.toString()||''),newTodo)} className={`${newTodo === '' ? 'disabled':''} text-white px-3 py-2 bg-indigo-500 text-center font-semibold w-full rounded-md`}>Add todo </button>
       </div>
     </div>
   )

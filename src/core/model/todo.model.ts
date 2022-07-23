@@ -3,6 +3,6 @@ export default interface Todo {
   id: number
   name: string
   state: string
-  todo_list_id: number
+  todo_list_id: string
   updated_at: string
 }
