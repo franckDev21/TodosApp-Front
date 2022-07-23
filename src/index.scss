@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+button.disabled{
+  opacity: .6;
+  pointer-events: none;
+}
