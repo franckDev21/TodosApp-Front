@@ -1,7 +1,9 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import TodoListModel from '../../core/model/todolist.model'
+import TodoService from '../../core/services/todo.service'
 import { addTodo } from '../../core/store/todoList'
+import AuthService from '../../services/AuthService'
 import Todo from '../Task/Todo'
 
 type TypeTodoList = {
@@ -10,12 +12,10 @@ type TypeTodoList = {
 
 const TodoList:FC<TypeTodoList> = ({todolist}) => {
 
+  const {token} = AuthService();
+
   const [newTodo,setNewTodo] = useState<string>('');
   const dispatch = useDispatch();
-
-  // useEffect(()=>{
-  //   console.log(todolist);
-  // },[todolist]);
 
   const addNewTodo = (id: string,value: string) => {
     setNewTodo('');
@@ -23,6 +23,10 @@ const TodoList:FC<TypeTodoList> = ({todolist}) => {
     dispatch(addTodo({id,value}));
     // update BD
 
+    TodoService.addTodo(token,value,(todolist.id?.toString() || ''))
+      .then(res => {
+        console.log(res);
+      }).catch(err => console.log(err));
   }
 
   return (

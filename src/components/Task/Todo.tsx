@@ -6,12 +6,16 @@ import { useDispatch } from 'react-redux';
 import { deleteTodo, toggleTodo } from '../../core/store/todoList';
 
 import './Todo.scss';
+import TodoService from '../../core/services/todo.service';
+import AuthService from '../../services/AuthService';
 
 type TypeTodo = {
   todo : TodoModel
 }
 
 const Todo:FC<TypeTodo>  = ({ todo }) => {
+
+  const {token} = AuthService();
 
   const [state,setState] = useState('');
 
@@ -31,12 +35,20 @@ const Todo:FC<TypeTodo>  = ({ todo }) => {
     // update store
     dispatch(toggleTodo({todo_list_id : todo.todo_list_id,todo_id:todo.id}));
     // update BD
+    TodoService.toggleTodo(token,(todo.id?.toString() || ''))
+      .then(res => {
+        console.log(res);
+      }).catch(err => console.log(err));
   }
 
   const deleteMyTodo = () => {
     // update store
     dispatch(deleteTodo({todo_list_id : todo.todo_list_id,todo_id:todo.id}));
     // update BD
+    TodoService.deleteTodo(token,(todo.id?.toString() || ''))
+      .then(res => {
+        console.log(res);
+      }).catch(err => console.log(err));
   }
 
 
