@@ -11,3 +11,16 @@ button.disabled{
   max-width: 1024px;
   @apply px-6 xl:px-0;
 }
+
+body { 
+  &::-webkit-scrollbar{
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track{
+    background-color: #3333 ;
+  }
+  &::-webkit-scrollbar-thumb{
+    background-color: #6366F1;
+    border-radius: 5px;
+  }
+}
