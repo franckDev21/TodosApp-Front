@@ -37,7 +37,6 @@ const Auth = () => {
       setLoading(true);
       http.post('https://my-todolist-api-test.herokuapp.com/api/login',credentials).then((res) => {
         const data : ResponseAuth = res.data;
-        console.log(data.user,data.access_token);
         
         setToken(data.user,data.access_token);
         setLoading(false);
@@ -70,11 +69,16 @@ const Auth = () => {
   },[isLogin,navigate]);
 
   return (
-    <form onSubmit={handleLogin} className="auth rounded-lg mt-10 mx-5 sm:mx-auto bg-white shadow-md p-5  sm:max-w-sm  ">
-      <h1 className='auth__title text-2xl text-gray-600 pt-4 pb-4 font-bold'>
-        {mode === 'LOGIN' ? 'Login' : 'Register'}
+    <form onSubmit={handleLogin} className="auth rounded-lg mt-14 mx-5 sm:mx-auto bg-white shadow-md p-5  sm:max-w-sm  ">
+      <h1 className='auth__title text-4xl text-gray-600 pt-4 pb-4 font-extrabold'>
+        {mode === 'LOGIN' ? 
+        <>
+          <span><span className="text-indigo-500">Lo</span><span className="text-fuchsia-500">gin</span></span>
+        </> : <>
+          <span><span className="text-indigo-500">Regi</span><span className="text-fuchsia-500">ster</span></span>
+        </>}
       </h1>
-
+      <div className="h-[.5px] w-full bg-gray-200 rounded-md mb-4"></div>
       {errorAuth && 
         <Error message={errorAuth} />
       }

@@ -34,7 +34,6 @@ const Dashboard = () => {
 
   const addNewTodoList = () => {
     const todo_list_id = Date.now();
-    console.log(todo_list_id);
     
     // update state
     dispatch(addTodoList({user_id: user.id,todo_list_id}));
