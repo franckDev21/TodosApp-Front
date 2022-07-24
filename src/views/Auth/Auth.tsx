@@ -35,7 +35,7 @@ const Auth = () => {
 
     if(mode === 'LOGIN'){
       setLoading(true);
-      http.post('http://localhost:8000/api/login',credentials).then((res) => {
+      http.post('https://my-todolist-api-test.herokuapp.com/api/login',credentials).then((res) => {
         const data : ResponseAuth = res.data;
         console.log(data.user,data.access_token);
         
@@ -49,7 +49,7 @@ const Auth = () => {
       });
     }else{
       setLoading(true);
-      http.post('http://localhost:8000/api/register',{...credentials,name}).then((res) => {
+      http.post('https://my-todolist-api-test.herokuapp.com/api/register',{...credentials,name}).then((res) => {
         setMode('LOGIN');
         setLoading(false);
       }).catch(err => {
