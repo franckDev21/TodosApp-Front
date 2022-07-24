@@ -1,0 +1,24 @@
+.todo-list{
+  &__tiket{
+    .toggle-btn{
+      opacity: 0;
+      transition: opacity .3s ease-in-out;
+      
+    }
+    .date{
+      transition: transform .3s ease-in-out;
+      transform: translateX(10px);
+    }
+  }
+  &:hover{
+    .todo-list__tiket{
+      .date{
+        transform: translateX(-0.74rem);
+      }  
+      .toggle-btn{
+        opacity: 1;
+      }
+    }
+  }
+  
+}

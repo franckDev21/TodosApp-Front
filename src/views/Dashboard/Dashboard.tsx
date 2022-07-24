@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import { FaTimes } from 'react-icons/fa';
 import Loader from '../../components/Loader/Loader';
 import TodoList from '../../components/TodoList/TodoList';
 import TodoListModel from '../../core/model/todolist.model';
-import { fetchStoreTodoList } from '../../core/store/todoList';
+import { addTodoList, fetchStoreTodoList } from '../../core/store/todoList';
 import AuthService from '../../services/AuthService'
+import TodoService from '../../core/services/todo.service';
 
 const Dashboard = () => {
 
-  const { http,user } = AuthService();
+  const { http,user,token } = AuthService();
   const [loading,setLoading] = useState(true);
 
   const dispatch = useDispatch();
+
   const todoLists:TodoListModel[] = useSelector((state:any) => state.todoList);
 
   async function fetcthTodoList() {
@@ -29,6 +32,19 @@ const Dashboard = () => {
     }
   }
 
+  const addNewTodoList = () => {
+    const todo_list_id = Date.now();
+    console.log(todo_list_id);
+    
+    // update state
+    dispatch(addTodoList({user_id: user.id,todo_list_id}));
+    // update BD
+    TodoService.addTodoList(token,user.id?.toString() || '',todo_list_id.toString())
+    .then(res => {
+      console.log(res);
+    }).catch(err => console.log(err));
+  }
+
   useEffect(() => {
     fetcthTodoList();
   },[]);
@@ -36,8 +52,13 @@ const Dashboard = () => {
   return !loading ? (
     <>
       <div className="container mx-auto pt-10 pb-5">
-        <h1 className='text-xl font-bold text-indigo-600 mb-5'>Dashboard</h1>
-        <div className='block md:flex -mx-4 justify-between items-start'>
+        <div className='flex justify-between items-center mb-4'>
+          <h1 className='text-xl font-bold text-indigo-600 '>Dashboard | {todoLists.length} Todo list{todoLists.length > 1 ?'s':''}</h1>
+
+          <button onClick={addNewTodoList} className='px-8 active:scale-[95%] py-2 rounded-md bg-indigo-500'><FaTimes className='transform rotate-[45deg] text-white' size={20} /></button>
+        </div>
+
+        <div className='block md:flex flex-wrap -mx-4 justify-start items-start'>
           {todoLists.map((todoList: TodoListModel) => <TodoList key={todoList.id} todolist={todoList} />)}
         </div>
       </div>

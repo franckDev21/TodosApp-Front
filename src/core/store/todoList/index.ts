@@ -9,13 +9,15 @@ const todoListSlice = createSlice({
   name : 'todoList',
   initialState,
   reducers: {
+
     fetchStoreTodoList : (state,action) => {
       state = action.payload;
       return state;
     },
+
     addTodo: (state,action) => {
 
-      const todoList = state.find(element => element.id?.toString() === action.payload.id);
+      const todoList = state.find(element => element.id?.toString() === action.payload.id.toString());
       
       const todo: Todo = {
         id: Date.now(),
@@ -29,6 +31,7 @@ const todoListSlice = createSlice({
       todoList?.todos?.push(todo);
 
     },
+
     toggleTodo: (state,action) => {
       const todoList = state.find(element => element?.id?.toString() === action.payload.todo_list_id.toString());
       const todo = todoList?.todos?.find(el => el.id.toString() === action.payload.todo_id.toString());
@@ -40,6 +43,7 @@ const todoListSlice = createSlice({
       }
 
     },
+
     deleteTodo: (state,action) => {
       let todoList = state.find(element => element?.id?.toString() === action.payload.todo_list_id.toString());
       const todoFind = todoList?.todos?.find(el => el.id.toString() === action.payload.todo_id.toString());
@@ -48,12 +52,25 @@ const todoListSlice = createSlice({
         todoList.todos = todoList?.todos?.filter(todo => todo.id.toString() !== todoFind?.id.toString())
       }
     },
+
     addTodoList: (state,action) => {
-      // return state
+
+      const todoList: TodoList = {
+        id: action.payload.todo_list_id,
+        created_at: moment().format('DD MMM YYYY'),
+        updated_at: moment().format(),
+        user_id: action.payload.user_id,
+        todos: []
+      }
+
+      state.push(todoList);
     },
+
     deleteTodoList: (state,action) => {
-      // return state
+      state = state.filter(todoList => todoList.id?.toString() !== action.payload.toString());
+      return state
     },
+
   }
 });
 
