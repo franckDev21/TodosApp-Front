@@ -1,10 +1,11 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import "./Auth.scss";
 import AuthService from "../../services/AuthService";
 import { User } from "../../core/model/user.model";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
 import Error from "../../components/Error/Error";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 type ResponseAuth = {
   access_token : string,
@@ -25,6 +26,9 @@ const Auth = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorAuth,setErrorAuth] = useState<string>('');
+
+  const passwordFieldRef = useRef(null);
+  const [showPassword,setShowPassWord] = useState(false);
 
   const handleLogin = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -60,7 +64,18 @@ const Auth = () => {
     }
     
   };
-  
+
+  useEffect(() => {
+    if(showPassword){
+      if(passwordFieldRef.current){
+        (passwordFieldRef.current as HTMLInputElement).type = 'text';
+      }
+    }else{
+      if(passwordFieldRef.current){
+        (passwordFieldRef.current as HTMLInputElement).type = 'password';
+      }
+    }
+  },[showPassword])
 
   useEffect(()=>{
     if(isLogin()){
@@ -93,8 +108,13 @@ const Auth = () => {
         <input value={email}  onChange={(e) => setEmail(e.target.value)} type="email" placeholder='Email adress' className='block border px-3 py-2 w-full outline-none ring-0 focus:ring-0 focus:outline-none rounded-md' />
       </div>
 
-      <div>
-        <input value={password} required onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Password' className='block border px-3 py-2 w-full outline-none ring-0 focus:ring-0 focus:outline-none rounded-md' />
+      <div className="relative">
+        <input ref={passwordFieldRef} value={password} required onChange={(e) => setPassword(e.target.value)} type="password" placeholder='Password' className='block border px-3 py-2 w-full outline-none ring-0 focus:ring-0 focus:outline-none rounded-md' />
+        <span onClick={(e) => {
+          setShowPassWord(!showPassword);
+        }} className="absolute cursor-pointer right-3 top-1/2 -translate-y-1/2">
+          {!showPassword ? <IoMdEyeOff size={20} /> : <IoMdEye size={20} />}
+        </span>
       </div>
 
       <div className="my-3 flex justify-end ">
