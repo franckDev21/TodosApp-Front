@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import AuthService from '../../services/AuthService'
 
 const Header = () => {
@@ -14,12 +15,12 @@ const Header = () => {
   return (
     <header className='bg-white py-4 text-xl'>
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className=' font-[900] text-gray-600'>
+        <Link to='/' className=' font-[900] text-3xl text-gray-600'>
           <span className='text-fuchsia-600'>TODO</span><span>.</span><span>APP</span>
-        </h1>
+        </Link>
 
         <div className='flex items-center justify-between'>
-          <div className='text-xs flex flex-col mr-3 text-gray-600'>
+          <div className='text-xs hidden md:flex flex-col mr-3 text-gray-600'>
             <span className='font-semibold'>{user.name}</span>
             <span>{user.email}</span>
           </div>
