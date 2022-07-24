@@ -58,9 +58,13 @@ const Dashboard = () => {
           <button onClick={addNewTodoList} className='px-8 active:scale-[95%] py-2 rounded-md bg-indigo-500'><FaTimes className='transform rotate-[45deg] text-white' size={20} /></button>
         </div>
 
-        <div className='block md:flex flex-wrap -mx-4 justify-start items-start'>
+        {(todoLists.length >= 1) && <div className='block md:flex flex-wrap -mx-4 justify-start items-start'>
           {todoLists.map((todoList: TodoListModel) => <TodoList key={todoList.id} todolist={todoList} />)}
-        </div>
+        </div>}
+
+        {(todoLists.length < 1) && <div className='py-10 bg-white rounded-md font-extrabold text-fuchsia-500 w-full text-center text-4xl'>
+          No to do list
+        </div>}
       </div>
     </>
   ): (
