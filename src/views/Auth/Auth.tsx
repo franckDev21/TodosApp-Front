@@ -18,7 +18,7 @@ const Auth = () => {
 
   const navigate = useNavigate();
 
-  const [mode,setMode] = useState('LOGIN');
+  const [mode,setMode] = useState('LOGIN'); 
   const [loading,setLoading] = useState(false);
 
   const { http, isLogin, setToken } = AuthService();
