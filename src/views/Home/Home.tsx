@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import GuestLayout from '../../containers/GuestLayout/GuestLayout'
+import './Home.scss'
 
 const Home = () => {
   return (

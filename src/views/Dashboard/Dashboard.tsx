@@ -8,11 +8,14 @@ import TodoListModel from '../../core/model/todolist.model';
 import { addTodoList, fetchStoreTodoList } from '../../core/store/todoList';
 import AuthService from '../../services/AuthService'
 import TodoService from '../../core/services/todo.service';
+import lang from '../../lang/lang';
 
 const Dashboard = () => {
 
   const { http,user,token } = AuthService();
   const [loading,setLoading] = useState(true);
+
+  const local :any = useSelector((state: any) => state.traduction);
 
   const dispatch = useDispatch();
 
@@ -52,7 +55,7 @@ const Dashboard = () => {
     <>
       <div className="container mx-auto pt-10 pb-5">
         <div className='flex justify-between items-center mb-4'>
-          <h1 className='text-xl font-bold text-indigo-600 '>Dashboard | {todoLists.length} Todo list{todoLists.length > 1 ?'s':''}</h1>
+          <h1 className='text-xl font-bold text-indigo-600 '>{lang[local].title} | {todoLists.length} Todo list{todoLists.length > 1 ?'s':''}</h1>
 
           <button onClick={addNewTodoList} className='px-8 active:scale-[95%] py-2 rounded-md bg-indigo-500'><FaTimes className='transform rotate-[45deg] text-white' size={20} /></button>
         </div>
