@@ -3,7 +3,7 @@ import store from "../store/redux";
 
 class AuthSevice {
   
-  login(){
+  static login(){
 
   }
 
